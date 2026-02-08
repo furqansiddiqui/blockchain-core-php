@@ -9,8 +9,7 @@ declare(strict_types=1);
 namespace FurqanSiddiqui\Blockchain\Core\Signatures;
 
 /**
- * Defines the structure for cryptographic signature functionality,
- * including operations related to mathematical curves.
+ * Defines the marker for cryptographic signature.
  */
 interface SignatureInterface
 {
