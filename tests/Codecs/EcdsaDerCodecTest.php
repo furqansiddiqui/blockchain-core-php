@@ -20,7 +20,7 @@ class EcdsaDerCodecTest extends TestCase
     {
         $r = str_repeat("\x01", 32);
         $s = str_repeat("\x02", 32);
-        $sig = new EcdsaSignature(Curve::Secp256k1, new Bytes32($r), new Bytes32($s));
+        $sig = new EcdsaSignature(new Bytes32($r), new Bytes32($s));
         
         $der = EcdsaDerCodec::encode($sig);
         $expected = "\x30\x44\x02\x20" . $r . "\x02\x20" . $s;
@@ -31,7 +31,7 @@ class EcdsaDerCodecTest extends TestCase
     {
         $r = "\x80" . str_repeat("\x00", 31);
         $s = "\xff" . str_repeat("\x00", 31);
-        $sig = new EcdsaSignature(Curve::Secp256k1, new Bytes32($r), new Bytes32($s));
+        $sig = new EcdsaSignature(new Bytes32($r), new Bytes32($s));
         
         $der = EcdsaDerCodec::encode($sig);
         $expected = "\x30\x46\x02\x21\x00" . $r . "\x02\x21\x00" . $s;

@@ -15,7 +15,7 @@ use Charcoal\Contracts\Encoding\EncodingSchemeInterface;
  * Represents a digital signature generated using the Edwards-curve Digital Signature Algorithm (EdDSA).
  * Implements the SignatureInterface.
  */
-readonly abstract class EdDSASignature implements SignatureInterface
+readonly class EdDSASignature implements SignatureInterface
 {
     /**
      * EdDSASignature constructor.

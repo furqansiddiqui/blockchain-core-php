@@ -17,7 +17,7 @@ use FurqanSiddiqui\Blockchain\Core\Enums\CompactSignature;
  * It consists of the components `r` and `s`, which are fixed-length immutable buffers,
  * and an optional `recoveryId` for use cases such as signature recovery.
  */
-readonly abstract class EcdsaSignature implements SignatureInterface
+readonly class EcdsaSignature implements SignatureInterface
 {
     /**
      * EcdsaSignature constructor.
