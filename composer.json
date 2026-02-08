@@ -1,0 +1,30 @@
+{
+  "name": "furqansiddiqui/blockchain-core-php",
+  "description": "Shared cryptographic primitives and chain identity abstractions for blockchain libraries.",
+  "type": "library",
+  "homepage": "https://github.com/furqansiddiqui/blockchain-core-php",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Furqan A. Siddiqui",
+      "email": "hello@furqansiddiqui.com",
+      "homepage": "https://www.furqansiddiqui.com",
+      "role": "Author"
+    }
+  ],
+  "require": {
+    "php": "^8.3",
+    "charcoal-dev/buffers": "^0.2.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "FurqanSiddiqui\\Blockchain\\Core\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "FurqanSiddiqui\\Blockchain\\Core\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "dev"
+}
