@@ -59,8 +59,8 @@ final class EcdsaDerCodec
         }
 
         return [
-            self::normalizeInteger($r, $scalarBits->value, "R"),
-            self::normalizeInteger($s, $scalarBits->value, "S")
+            self::normalizeInteger($r, $scalarBits->byteLen(), "R"),
+            self::normalizeInteger($s, $scalarBits->byteLen(), "S")
         ];
     }
 
