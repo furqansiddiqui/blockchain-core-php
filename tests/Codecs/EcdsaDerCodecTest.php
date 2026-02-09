@@ -127,7 +127,7 @@ class EcdsaDerCodecTest extends TestCase
 
     public function testDecodeValueEqualsOrderN(): void
     {
-        $nHex = "fffffffffffffffffffffffffffffffebaaedceaf48a03bbfd25e8cd0364141";
+        $nHex = "ffffffffffffffffffffffffffffffffebaaedceaf48a03bbfd25e8cd0364141";
         $nBin = hex2bin($nHex);
         $r = str_repeat("\x01", 32);
         $s = "\x00" . $nBin;
