@@ -21,7 +21,7 @@ final class EcdsaDerCodec
     /**
      * @param ScalarBitLength $scalarBits
      * @param ReadableBufferInterface|string $der
-     * @return array{string, string}
+     * @return array{0: string, 1: string}
      */
     public static function decode(
         ScalarBitLength                $scalarBits,
