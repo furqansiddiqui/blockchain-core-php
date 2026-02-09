@@ -21,17 +21,26 @@ use FurqanSiddiqui\Blockchain\Core\Signatures\EdDSASignature;
  */
 interface EdDSAInterface extends SignatureSchemeInterface
 {
+    /**
+     * Generate a public key from the given private key.
+     */
     public function generatePublicKey(
         #[\SensitiveParameter]
         FixedLengthImmutableBuffer $privateKey
     ): EdDSAPublicKey;
 
+    /**
+     * Sign the given message hash with the given private key.
+     */
     public function sign(
         #[\SensitiveParameter]
         FixedLengthImmutableBuffer $privateKey,
         ReadableBufferInterface    $msgHash
     ): EdDSASignature;
 
+    /**
+     * Verify the given signature against the given message hash and public key.
+     */
     public function verify(
         EdDSAPublicKey          $publicKey,
         EdDSASignature          $signature,

@@ -20,11 +20,25 @@ use FurqanSiddiqui\Blockchain\Core\Signatures\SignatureInterface;
  */
 interface SignatureSchemeInterface
 {
+    /**
+     * Validate the given private key.
+     */
+    public function validatePrivateKey(
+        #[\SensitiveParameter]
+        FixedLengthImmutableBuffer $privateKey
+    ): void;
+
+    /**
+     * Generate a public key from the given private key.
+     */
     public function generatePublicKey(
         #[\SensitiveParameter]
         FixedLengthImmutableBuffer $privateKey
     ): PublicKeyInterface;
 
+    /**
+     * Sign the given message hash with the given private key.
+     */
     public function sign(
         #[\SensitiveParameter]
         FixedLengthImmutableBuffer $privateKey,
