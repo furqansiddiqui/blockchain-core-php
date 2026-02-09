@@ -21,7 +21,7 @@ readonly class EdDSASignature implements SignatureInterface
      * EdDSASignature constructor.
      */
     public function __construct(
-        public FixedLengthImmutableBuffer $signature,
+        public FixedLengthImmutableBuffer $buffer,
     )
     {
     }
@@ -31,7 +31,7 @@ readonly class EdDSASignature implements SignatureInterface
      */
     public function bytes(): string
     {
-        return $this->signature->bytes();
+        return $this->buffer->bytes();
     }
 
     /**
@@ -40,6 +40,6 @@ readonly class EdDSASignature implements SignatureInterface
      */
     public function encode(EncodingSchemeInterface $scheme): string
     {
-        return $this->signature->encode($scheme);
+        return $this->buffer->encode($scheme);
     }
 }

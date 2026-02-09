@@ -10,6 +10,7 @@ namespace FurqanSiddiqui\Blockchain\Core\Signatures;
 
 use Charcoal\Buffers\Abstracts\FixedLengthImmutableBuffer;
 use Charcoal\Contracts\Encoding\EncodingSchemeInterface;
+use FurqanSiddiqui\Blockchain\Core\Codecs\EcdsaDerCodec;
 use FurqanSiddiqui\Blockchain\Core\Enums\CompactSignature;
 
 /**
@@ -54,5 +55,13 @@ readonly class EcdsaSignature implements SignatureInterface
         };
 
         return $encoding ? $encoding->encode($compact) : $compact;
+    }
+
+    /**
+     * @return string
+     */
+    public function toDER(): string
+    {
+        return EcdsaDerCodec::encode($this);
     }
 }
