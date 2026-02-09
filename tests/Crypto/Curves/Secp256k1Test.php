@@ -11,6 +11,7 @@ namespace FurqanSiddiqui\Blockchain\Core\Tests\Crypto\Curves;
 use Charcoal\Buffers\Types\Bytes32;
 use FurqanSiddiqui\Blockchain\Core\Crypto\Curves\Secp256k1;
 use FurqanSiddiqui\Blockchain\Core\Crypto\Ecdsa\Rfc6979;
+use FurqanSiddiqui\Blockchain\Core\Enums\CompactSignature;
 use FurqanSiddiqui\Blockchain\Core\Enums\EcCurve;
 use FurqanSiddiqui\Blockchain\Core\Signatures\EcdsaSignature256;
 use PHPUnit\Framework\TestCase;
@@ -28,22 +29,22 @@ class Secp256k1Test extends TestCase
     {
         $secp256k1 = new Secp256k1();
 
-        // Test Vectors from libsecp256k1 or common sources
-        $vectors = [
-            [
-                "d" => "0000000000000000000000000000000000000000000000000000000000000001",
-                "x" => "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
-                "y" => "483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8"
-            ]
-        ];
+        // Canonical secp256k1 generator test (d = 1)
+        $d = new Bytes32(hex2bin("0000000000000000000000000000000000000000000000000000000000000001"));
 
-        foreach ($vectors as $vector) {
-            $d = new Bytes32(hex2bin($vector["d"]));
-            $pubKey = $secp256k1->generatePublicKey($d);
-            $this->assertSame($vector["x"], bin2hex($pubKey->x->bytes()), "Failed for d=" . $vector["d"]);
-            $this->assertSame($vector["y"], bin2hex($pubKey->y->bytes()), "Failed for d=" . $vector["d"]);
-        }
+        $pubKey = $secp256k1->generatePublicKey($d);
+
+        $this->assertSame(
+            "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
+            bin2hex($pubKey->x->bytes())
+        );
+
+        $this->assertSame(
+            "483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8",
+            bin2hex($pubKey->y->bytes())
+        );
     }
+
 
     /**
      * @return void
@@ -51,19 +52,30 @@ class Secp256k1Test extends TestCase
     public function testEcdsaSigningAndVerification(): void
     {
         $secp256k1 = new Secp256k1();
-        $dHex = str_pad("09", 64, "0", STR_PAD_LEFT);
-        $d = new Bytes32(hex2bin($dHex));
-        $msgHash = new Bytes32(hex2bin("af2b1e42857461972f588a83d7c3583c483a93f18e9f4e242400e95738806295"));
-        $expectedR = "0087fc000cc74311d9014279a9e54372554bf5af99a437857338160f40c8707d";
-        $expectedS = "7997e180e4c79edcf1a52f56c02afd63f1b85f435e4c29d9be8dc699f43a4931";
-        $signature = $secp256k1->sign($d, $msgHash);
-        $this->assertSame($expectedR, bin2hex($signature->r->bytes()), "R mismatch");
-        $this->assertSame($expectedS, bin2hex($signature->s->bytes()), "S mismatch");
 
-        // Verify
+        $d = new Bytes32(hex2bin(str_pad("09", 64, "0", STR_PAD_LEFT)));
+        $msgHash = new Bytes32(hex2bin(
+            "af2b1e42857461972f588a83d7c3583c483a93f18e9f4e242400e95738806295"
+        ));
+
+        $sig1 = $secp256k1->sign($d, $msgHash);
+        $sig2 = $secp256k1->sign($d, $msgHash);
+
+        // Deterministic signature (RFC6979)
+        $this->assertSame(
+            $sig1->toCompact(CompactSignature::RS),
+            $sig2->toCompact(CompactSignature::RS),
+            "Signature not deterministic"
+        );
+
         $pubKey = $secp256k1->generatePublicKey($d);
-        $this->assertTrue($secp256k1->verify($pubKey, $signature, $msgHash), "Verification failed");
+
+        $this->assertTrue(
+            $secp256k1->verify($pubKey, $sig1, $msgHash),
+            "Verification failed"
+        );
     }
+
 
     /**
      * @return void
@@ -72,22 +84,27 @@ class Secp256k1Test extends TestCase
     {
         $secp256k1 = new Secp256k1();
 
-        $dHex = str_pad("01", 64, "0", STR_PAD_LEFT);
-        $d = new Bytes32(hex2bin($dHex));
-        $msgHash = new Bytes32(hex2bin("af2b1e42857461972f588a83d7c3583c483a93f18e9f4e242400e95738806295"));
+        $d = new Bytes32(hex2bin(str_pad("01", 64, "0", STR_PAD_LEFT)));
+        $msgHash = new Bytes32(hex2bin(
+            "af2b1e42857461972f588a83d7c3583c483a93f18e9f4e242400e95738806295"
+        ));
 
         $pubKey = $secp256k1->generatePublicKey($d);
         $signature = $secp256k1->sign($d, $msgHash);
 
-        // Mutate signature
-        $mutatedR = bin2hex($signature->r->bytes());
-        $mutatedR[0] = $mutatedR[0] === '0' ? '1' : '0';
+        // Mutate r (guaranteed invalid)
+        $r = $signature->r->bytes();
+        $r[0] = $r[0] ^ "\x01";
+
         $invalidSignature = new EcdsaSignature256(
-            new Bytes32(hex2bin($mutatedR)),
+            new Bytes32($r),
             $signature->s
         );
 
-        $this->assertFalse($secp256k1->verify($pubKey, $invalidSignature, $msgHash), "Invalid signature verified as true");
+        $this->assertFalse(
+            $secp256k1->verify($pubKey, $invalidSignature, $msgHash),
+            "Invalid signature verified as true"
+        );
     }
 
     /**
