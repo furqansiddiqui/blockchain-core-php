@@ -3,25 +3,31 @@
 [![Tests Passing](https://github.com/furqansiddiqui/blockchain-core-php/actions/workflows/tests.yml/badge.svg)](https://github.com/furqansiddiqui/blockchain-core-php/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A lightweight PHP library providing cryptographic primitives and elliptic curve abstractions specifically tailored for blockchain development.
+A lightweight PHP library providing cryptographic primitives and elliptic curve abstractions specifically tailored for
+blockchain development.
 
 ## Features
 
-- **Elliptic Curves Support**: 
-  - `secp256k1` (Bitcoin, Ethereum)
-  - `secp256r1` (NIST P-256)
-  - `brainpoolP256r1`
+- **Elliptic Curves Support**:
+    - `secp256k1` (Bitcoin, Ethereum)
+    - `secp256r1` (NIST P-256)
+    - `brainpoolP256r1`
 - **ECDSA (Elliptic Curve Digital Signature Algorithm)**:
-  - High-performance pure-PHP implementation using `ext-gmp`.
-  - Deterministic nonce generation via **RFC 6979**.
-  - Canonical signature enforcement (**BIP 66**).
-  - Public key recovery from signatures.
-  - Support for compressed and uncompressed public keys.
+    - High-performance pure-PHP implementation using `ext-gmp`.
+    - Deterministic nonce generation via **RFC 6979**.
+    - Canonical signature enforcement (**BIP 66**).
+    - Public key recovery from signatures.
+    - Support for compressed and uncompressed public keys.
 - **EdDSA Support**:
-  - Abstractions for Edwards-curve Digital Signature Algorithm (e.g., Ed25519).
+    - Abstractions for Edwards-curve Digital Signature Algorithm (e.g., Ed25519).
 - **Security Focused**:
-  - Uses PHP 8.3 `#[\SensitiveParameter]` attribute to protect private keys in backtraces.
-  - Implements Low-S normalization for ECDSA signatures.
+    - Uses PHP 8.3 `#[\SensitiveParameter]` attribute to protect private keys in backtraces.
+    - Implements Low-S normalization for ECDSA signatures.
+
+## ⚠️ Disclaimer
+
+This library exposes low-level cryptographic functionality. Use at your own risk. No warranties are
+provided. Perform an independent security review before production use.
 
 ## Requirements
 
