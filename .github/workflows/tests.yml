@@ -1,0 +1,29 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: composer
+          extensions: gmp
+
+      - name: Install dependencies (autoload only)
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Download PHPUnit PHAR
+        run: |
+          curl -fLsS -o phpunit.phar https://phar.phpunit.de/phpunit-12.phar
+
+      - name: Run tests
+        run: php phpunit.phar
