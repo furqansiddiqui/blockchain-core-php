@@ -10,7 +10,7 @@ namespace FurqanSiddiqui\Blockchain\Core\Codecs;
 
 use Charcoal\Buffers\Support\ByteReader;
 use Charcoal\Contracts\Buffers\ReadableBufferInterface;
-use FurqanSiddiqui\Blockchain\Core\Enums\Curve;
+use FurqanSiddiqui\Blockchain\Core\Enums\ScalarBitLength;
 use FurqanSiddiqui\Blockchain\Core\Signatures\EcdsaSignature;
 
 /**
@@ -19,17 +19,16 @@ use FurqanSiddiqui\Blockchain\Core\Signatures\EcdsaSignature;
 final class EcdsaDerCodec
 {
     /**
-     * @param Curve $curve
+     * @param ScalarBitLength $scalarBits
      * @param ReadableBufferInterface|string $der
      * @return array{string, string}
      */
     public static function decode(
-        Curve                          $curve,
+        ScalarBitLength                $scalarBits,
         ReadableBufferInterface|string $der,
     ): array
     {
         $bytes = new ByteReader($der instanceof ReadableBufferInterface ? $der->bytes() : $der);
-        $scalarLength = $curve->scalarLength();
         if ($bytes->first(1) !== "\x30") {
             throw new \InvalidArgumentException("Invalid DER signature");
         }
@@ -60,8 +59,8 @@ final class EcdsaDerCodec
         }
 
         return [
-            self::normalizeInteger($r, $scalarLength, "R"),
-            self::normalizeInteger($s, $scalarLength, "S")
+            self::normalizeInteger($r, $scalarBits->value, "R"),
+            self::normalizeInteger($s, $scalarBits->value, "S")
         ];
     }
 
