@@ -16,4 +16,16 @@ enum ScalarBitLength: int
     case Bits256 = 256;
     case Bits384 = 384;
     case Bits521 = 521;
+
+    /**
+     * @return int
+     */
+    public function byteLen(): int
+    {
+        return match ($this) {
+            self::Bits256 => 32,
+            self::Bits384 => 48,
+            self::Bits521 => 66,
+        };
+    }
 }
