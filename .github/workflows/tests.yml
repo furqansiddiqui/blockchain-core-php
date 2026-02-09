@@ -1,6 +1,7 @@
 name: Tests
 
 on:
+  workflow_dispatch:
   push:
   pull_request:
 
@@ -23,7 +24,7 @@ jobs:
 
       - name: Download PHPUnit PHAR
         run: |
-          curl -fLsS -o phpunit.phar https://phar.phpunit.de/phpunit-12.phar
+          curl -LsS -o phpunit.phar https://phar.phpunit.de/phpunit-12.phar
 
       - name: Run tests
         run: php phpunit.phar

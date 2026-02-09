@@ -1,5 +1,6 @@
 # Blockchain Core PHP
 
+[![Tests Passing](https://github.com/furqansiddiqui/blockchain-core-php/actions/workflows/tests.yml/badge.svg)](https://github.com/furqansiddiqui/blockchain-core-php/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A lightweight PHP library providing cryptographic primitives and elliptic curve abstractions specifically tailored for blockchain development.
