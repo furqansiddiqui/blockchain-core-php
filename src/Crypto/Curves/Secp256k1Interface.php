@@ -36,6 +36,13 @@ interface Secp256k1Interface
     ): SecPublicKey256;
 
     /**
+     * Expand the given compressed public key into its uncompressed form.
+     */
+    public function expandPublicKey(
+        SecPublicKey256 $publicKey
+    ): SecPublicKey256;
+
+    /**
      * Sign the given message hash with the given private key.
      */
     public function sign(

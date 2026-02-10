@@ -55,6 +55,14 @@ final readonly class Secp256k1 implements Secp256k1Interface
         return $this->curve->generatePublicKey($privateKey);
     }
 
+    public function expandPublicKey(
+        SecPublicKey256 $publicKey
+    ): SecPublicKey256
+    {
+        /** @var SecPublicKey256 */
+        return $this->curve->expandPublicKey($publicKey);
+    }
+
     /**
      * @param Bytes32 $privateKey
      * @param Bytes32 $msgHash
