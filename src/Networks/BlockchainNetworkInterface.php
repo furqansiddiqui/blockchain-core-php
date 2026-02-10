@@ -13,4 +13,13 @@ namespace FurqanSiddiqui\Blockchain\Core\Networks;
  */
 interface BlockchainNetworkInterface
 {
+    /** @var string Network name */
+    public string $name {
+        get;
+    }
+
+    /** @var bool Determines if network is testnet */
+    public bool $isTestnet {
+        get;
+    }
 }
