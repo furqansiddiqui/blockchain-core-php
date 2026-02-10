@@ -23,7 +23,7 @@ jobs:
 
       - name: Download PHPUnit PHAR
         run: |
-          curl -LsS -o phpunit.phar https://phar.phpunit.de/phpunit-12.phar
+          curl -LsS -o phpunit.phar https://phar.phpunit.de/phpunit-13.phar
 
       - name: Run tests
         run: php phpunit.phar
