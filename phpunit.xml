@@ -4,6 +4,7 @@
          stopOnFailure="false"
          failOnRisky="true"
          failOnWarning="true"
+         failOnDeprecation="true"
          testdox="true">
     <testsuites>
         <testsuite name="Blockchain Core Test Suite">
