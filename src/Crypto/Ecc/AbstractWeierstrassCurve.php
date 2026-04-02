@@ -240,7 +240,7 @@ abstract readonly class AbstractWeierstrassCurve implements EcdsaInterface
         }
 
         // Step 1.3
-        $pubKey = $this->expandPublicKey($this->createCompressedPublicKey($x, $recoveryId % 2 === 1));
+        $pubKey = $this->expandPublicKey($this->createCompressedPublicKey($x, gmp_intval(gmp_mod($recoveryId, 2)) === 1));
         $y = gmp_import($pubKey->y->bytes(), 1, GMP_BIG_ENDIAN | GMP_MSW_FIRST);
 
         // Step 1.6.1
