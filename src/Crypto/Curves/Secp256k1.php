@@ -92,7 +92,7 @@ final readonly class Secp256k1 implements Secp256k1Interface
     ): EcdsaSignature256
     {
         /** @var EcdsaSignature256 */
-        return $this->curve->sign($privateKey, $msgHash, randomK: null);
+        return $this->curve->sign($privateKey, $msgHash, randomK: $randomK);
     }
 
     /**
@@ -124,5 +124,20 @@ final readonly class Secp256k1 implements Secp256k1Interface
     {
         /** @var SecPublicKey256 */
         return $this->curve->recoverPublicKey($signature, $msgHash, $recoveryId);
+    }
+
+    /**
+     * @param EcdsaSignature256 $signature
+     * @param SecPublicKey256 $publicKey
+     * @param Bytes32 $msgHash
+     * @return int
+     */
+    public function findRecoveryId(
+        EcdsaSignature256 $signature,
+        SecPublicKey256   $publicKey,
+        Bytes32           $msgHash
+    ): int
+    {
+        return $this->curve->findRecoveryId($publicKey, $signature, $msgHash);
     }
 }

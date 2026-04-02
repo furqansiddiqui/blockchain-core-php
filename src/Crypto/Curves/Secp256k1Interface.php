@@ -78,4 +78,13 @@ interface Secp256k1Interface
         Bytes32           $msgHash,
         ?int              $recoveryId = null
     ): SecPublicKey256;
+
+    /**
+     * Find the recovery ID for the given signature, message hash, and public key.
+     */
+    public function findRecoveryId(
+        EcdsaSignature256 $signature,
+        SecPublicKey256   $publicKey,
+        Bytes32           $msgHash
+    ): int;
 }

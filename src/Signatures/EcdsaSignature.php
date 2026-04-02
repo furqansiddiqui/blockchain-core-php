@@ -35,6 +35,15 @@ readonly class EcdsaSignature implements SignatureInterface
     }
 
     /**
+     * @param int $recoveryId
+     * @return static
+     */
+    public function withRecoveryId(int $recoveryId): static
+    {
+        return new static($this->r, $this->s, $recoveryId);
+    }
+
+    /**
      * @param CompactSignature $format
      * @param EncodingSchemeInterface|null $encoding
      * @return string
